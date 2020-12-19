@@ -1,5 +1,9 @@
 .. highlight:: rst
 
+============================
+vkfeedsbot
+============================
+
 This Telegram bot takes news from VK and sends posts to users on their subscriptions.
 
 Supports:
