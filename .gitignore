@@ -1,0 +1,5 @@
+/.vscode
+/db copy.json
+/db_common.json
+/db_me_subs.json
+/__pycache__
