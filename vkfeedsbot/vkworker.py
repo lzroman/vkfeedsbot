@@ -144,8 +144,12 @@ class VKWorker:
                 return {}'''
         wall_raw = self.vk_session.method('wall.get', {'owner_id': sub_id, 'count': 1, 'offset': offset})
         if wall_raw:
-            wall = wall_raw['items'][0]
-            return wall
+            try:
+                wall = wall_raw['items'][0]
+                return wall
+            except Exception as e:
+                log(e)
+                log(wall_raw)
 
 
     def cache_update(self, sub_id, post):
