@@ -1,7 +1,7 @@
 import time, json
 from logger import log
 
-class DBase:
+class DBase: # dbase main class
     def __init__(self):
         self.userlist = {}
 
@@ -60,8 +60,8 @@ class User:
     def __init__(self, idd = 0):
         self.id = idd
         self.subs = {}
-        self.maxtext = 0
-        self.pause = False
+        self.maxtext = 0 # max text len to send
+        self.pause = False # is sending paused
         self.status = 'regular'
         self.lang = 'en'
     

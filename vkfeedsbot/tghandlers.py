@@ -95,7 +95,7 @@ class TGHandlers:
         return ConversationHandler.END
 
 
-    def sender(self):
+    def sender(self): # main function
         while True:
             log('feeds')
             for user in list(self.db.userlist.keys()):

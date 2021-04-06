@@ -17,11 +17,11 @@ class VKWorker:
         return self.vk_session.method(command, args)
     
 
-    def get_user(self, id):
+    def get_user(self, id): # get user data from id
         return self.vk_session.method('users.get',{'user_id' : [id]})[0]
 
 
-    def get_subs(self, lst):
+    def get_subs(self, lst): # get subs from list
         uids = ''
         pids = ''
         subs = []
@@ -31,12 +31,12 @@ class VKWorker:
                 uids = ','.join([uids, val[2:]])
             else:
                 pids = ','.join([pids, val[6:]])
-        if len(uids):
+        if len(uids): # users
             uids = uids[1:]
             raw = self.vk_session.method('users.get',{'user_ids': uids})
             for sub_u in raw:
                 subs.append({'id': ''.join(['id', str(sub_u['id'])]), 'name': ' '.join([sub_u['first_name'], sub_u['last_name']]), 'is_closed': sub_u['is_closed']})
-        if len(pids):
+        if len(pids): #publics
             pids = pids[1:]
             raw = self.vk_session.method('groups.getById',{'group_ids': pids})
             for sub_p in raw:
@@ -45,7 +45,7 @@ class VKWorker:
         return subs
 
 
-    def get_user_subs(self, id):
+    def get_user_subs(self, id): # get vk user subs
         subs_raw = self.vk_session.method('users.getSubscriptions', {'user_id' : id})
         subs = []
         if len(subs_raw['users']['items']) > self.subsmax:
@@ -66,7 +66,7 @@ class VKWorker:
         return subs
 
 
-    def get_sub(self, val):
+    def get_sub(self, val): # get only one sub
         if val[:2] == 'id':
             raw = self.get_user(int(val[2:]))
             if 'deactivated' in raw.keys():
@@ -77,14 +77,14 @@ class VKWorker:
             return {'id': ''.join(['public', str(raw['id'])]),'name':  raw['name'], 'is_closed': raw['is_closed']}
 
 
-    def resolve_link(self, link):
+    def resolve_link(self, link): # link to id
         return self.vk_session.method('utils.resolveScreenName', {'screen_name' : link})
 
-    def makesub(self, link):
+    def makesub(self, link): # link to id
         sub = self.get_sub(link)
         return ''.join(['[', sub['name'], '](https://vk.com/', str(sub['id']), ')'])
 
-    def makemlink(self, link):
+    def makemlink(self, link): # public or user
         if link[:2] == 'id':
             return int(link[2:])
         else:
@@ -94,7 +94,7 @@ class VKWorker:
     def clear_posts_cache(self):
         pass
 
-    def get_posts(self, link, last_post):
+    def get_posts(self, link, last_post): # get posts on sub to last
         posts = []
         newlink = self.makemlink(link)
         is_loading = True
@@ -131,7 +131,7 @@ class VKWorker:
         return posts
 
 
-    def post_get(self, sub_id, offset):
+    def post_get(self, sub_id, offset): # get one post
         '''if self.is_cached(sub_id, offset):
             return self.posts_cache[sub_id][offset]
         else:

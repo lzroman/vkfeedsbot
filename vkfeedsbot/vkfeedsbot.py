@@ -33,4 +33,5 @@ class vkfeedsbot:
     def handlers(self):
         self.handlers_o.handlers()
 
-bot = vkfeedsbot('config.json')
+if __name__ == "__main__":
+    bot = vkfeedsbot('config.json')
