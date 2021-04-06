@@ -142,7 +142,11 @@ class VKWorker:
                 return wall
             else:
                 return {}'''
-        wall_raw = self.vk_session.method('wall.get', {'owner_id': sub_id, 'count': 1, 'offset': offset})
+        wall_raw = None
+        try:
+            wall_raw = self.vk_session.method('wall.get', {'owner_id': sub_id, 'count': 1, 'offset': offset})
+        except Exception as e:
+            log(e)
         if wall_raw:
             try:
                 wall = wall_raw['items'][0]
@@ -160,10 +164,7 @@ class VKWorker:
 
     def is_cached(self, sub_id, offset):
         if sub_id in self.posts_cache.keys():
-            if len(self.posts_cache[sub_id]) > offset:
-                return True
-            else:
-                return False
+            return len(self.posts_cache[sub_id]) > offset
         else:
             return False
 
